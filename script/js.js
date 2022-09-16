@@ -9,16 +9,17 @@ if (localStorage.getItem("todo" )) {
 displayMessages();
 }
 
-button.addEventListener("click", () => {if (message.value.length >= 1) {addTask()} else {console.log("Введите задачу");}});
+button.addEventListener("click", () => {addTask()} );
 
 function addTask() {
+    if (!message.value){return};
          let newToDo = {
              text: message.value,
              checked: false,
              important: false
             }
             tasks.push(newToDo)
-            console.log(message.value);
+            console.log(message.value.length);
             displayMessages()
             localStorage.setItem("todo", JSON.stringify( tasks))
         } 
@@ -36,7 +37,7 @@ function displayMessages(params) {
                         </li> 
                     `
     todo.innerHTML = newContent
-    message.value = " "
+    message.value = ""
     })
     
     todo.addEventListener("change", function (e)  {
