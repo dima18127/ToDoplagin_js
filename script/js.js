@@ -28,7 +28,6 @@ function displayMessages(params) {
 
     let newContent = " ";
     tasks.forEach( function (item, i) {
-        console.log(item);
             newContent += `
                         <li>
                             <input type="checkbox" id="item_${i}" ${item.checked ? "checked" : " "}>
@@ -48,19 +47,17 @@ function displayMessages(params) {
                 item.checked = !item.checked;
                 localStorage.setItem("todo", JSON.stringify( tasks))
             }
-        })
-        console.log(tasks);
-        
+        }) 
     })
 }
 todo.addEventListener('contextmenu', function (e) {
     e.preventDefault();
-    tasks.forEach(function (item) {
-        console.log(e.target);
-        if (item.text === e.target.innerHTML )
-        { item.important = !item.important
-            localStorage.setItem("todo", JSON.stringify( tasks));
-            displayMessages();
-        }
-    })
+    tasks.forEach(function (item, index) {
+        if (e.target.getAttribute('for') === `item_${index}` ) {
+            item.important = !item.important
+            localStorage.setItem("todo", JSON.stringify( tasks))
+            displayMessages()
+            }       
+        })
+     
 })
