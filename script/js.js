@@ -9,19 +9,20 @@ if (localStorage.getItem("todo" )) {
 displayMessages();
 }
 
-button.addEventListener("click", () => {addTask()});
-
+button.addEventListener("click", () => {if (message.value.length >= 1) {addTask()} else {console.log("Введите задачу");}});
 
 function addTask() {
-    let newToDo = {
-        text: message.value,
-        checked: false,
-        important: false
-    }
-    tasks.push(newToDo)
-    displayMessages()
-    localStorage.setItem("todo", JSON.stringify( tasks))
-}
+         let newToDo = {
+             text: message.value,
+             checked: false,
+             important: false
+            }
+            tasks.push(newToDo)
+            console.log(message.value);
+            displayMessages()
+            localStorage.setItem("todo", JSON.stringify( tasks))
+        } 
+
 
 function displayMessages(params) {
 
@@ -31,18 +32,16 @@ function displayMessages(params) {
             newContent += `
                         <li>
                             <input type="checkbox" id="item_${i}" ${item.checked ? "checked" : " "}>
-                            <label for='item_${i}' class="${item.important ? "important" : " "}">${item.text} </label>
+                            <label for='item_${i}' class="${item.important ? "important" : " "}">${item.text}</label>
                         </li> 
                     `
                     todo.innerHTML = newContent
-    
-    message.value = " "
+    message.value = ""
     })
     
     todo.addEventListener("change", function (e)  {
-        let idInput = e.target.getAttribute('id');
-        let forLabel = todo.querySelector('[for='+ idInput +']');
-        let valueLabel = forLabel.innerHTML
+        let valueLabel = todo.querySelector('[for='+ e.target.getAttribute('id') +']').innerHTML;
+        
         tasks.forEach( function (item) {
 
             if (item.text === valueLabel ) {
@@ -53,16 +52,15 @@ function displayMessages(params) {
         console.log(tasks);
         
     })
-    todo.addEventListener('contextmenu', function (e) {
-        e.preventDefault();
-        tasks.forEach(function (item) {
-            // if (item.text === e.target.innerHTML )
-            // { item.important = !item.important
-            //     console.log(e.target.innerHTML);
-            //     localStorage.setItem("todo", JSON.stringify( tasks))
-            // }
-            console.log(item.text);
-            console.log(e.target.innerHTML)
-        })
-    })
 }
+todo.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    tasks.forEach(function (item) {
+        console.log(e.target);
+        if (item.text === e.target.innerHTML )
+        { item.important = !item.important
+            localStorage.setItem("todo", JSON.stringify( tasks));
+            displayMessages();
+        }
+    })
+})
