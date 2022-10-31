@@ -26,7 +26,7 @@ function addTask() {
 
 
 function displayMessages(params) {
-
+// показывает сообщения из массива
     let newContent = " ";
     if (tasks.length === 0) todo.innerHTML = " ";
     tasks.forEach( function (item, i) {
